@@ -1,8 +1,13 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useState
+} from "react";
 import '../index.scss';
 import { getRandomFilter, requestCollection } from '../helpers';
 import { Piece } from "./Piece";
 import { debounce } from 'lodash';
+import useDidMountEffect from '../hooks/useDidMount';
 
 const Content = () => {
   const [filter, setFilter] = useState('');
@@ -13,7 +18,6 @@ const Content = () => {
   useEffect(() => {
     const filter = getRandomFilter();
     setFilter(filter);
-    setCollection(searchCollection(filter));
   }, []);
 
   const searchCollection = (filter) => {
@@ -33,7 +37,15 @@ const Content = () => {
     return newFunc;
   }
 
-  console.log('filter :', filter);
+  const debounceFunc = useDebouncer(() => {
+    setCollection(searchCollection(filter));
+  }, 650);
+
+  useDidMountEffect(() => {
+    debounceFunc(filter);
+  }, filter);
+
+  // console.log('filter :', filter);
   return (
     <div className="top-container">
       <section className='container header-container'>

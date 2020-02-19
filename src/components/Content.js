@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import '../index.scss';
 import { getRandomFilter, requestCollection } from '../helpers';
 import { Piece } from "./Piece";
@@ -9,6 +9,7 @@ const Content = () => {
   const [filter, setFilter] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [collection, setCollection] = useState([]);
+  const searchInput = useRef();
 
   // Initially set filter to one of the existing "queries"
   useEffect(() => {
@@ -25,6 +26,11 @@ const Content = () => {
     })
   }
 
+  const clearCollection = async () => {
+    setFilter('');
+    searchInput.current.value = '';
+  }
+
   const searchWithDebouncer = useDebouncer(searchCollection, 650);
 
   useDidMountEffect(async () => {
@@ -35,8 +41,8 @@ const Content = () => {
       setCollection(response);
       setIsLoading(false);
     }
-  }, [searchWithDebouncer, filter]
-  );
+  }, [searchWithDebouncer, filter]);
+
 
   return (
     <div className="top-container">
@@ -52,12 +58,13 @@ const Content = () => {
             className={`search ${filter !== '' && 'add-searchbar'}`}
             placeholder={filter !== '' ? filter : 'Search...'}
             onChange={(e) => setFilter(e.target.value)}
+            ref={searchInput}
           />
           {filter !== '' &&
             <button
               name='clear'
               className='clear-button'
-              onClick={() => setFilter('')}
+              onClick={() => clearCollection()}
             >
               X
           </button>

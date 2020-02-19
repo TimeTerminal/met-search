@@ -8,19 +8,20 @@ import '../index.scss';
 import { getRandomFilter, requestCollection } from '../helpers';
 import { Piece } from "./Piece";
 import useDidMountEffect from '../hooks/useDidMount';
+import useDebouncer from '../hooks/useDebouncer';
 
 const Content = () => {
   const [filter, setFilter] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [collection, setCollection] = useState([]);
 
-  // Initially set filter to one of the pre-determined "queries"
+  // Initially set filter to one of the existing "queries"
   useEffect(() => {
     const filter = getRandomFilter();
     setFilter(filter);
   }, []);
 
-  const searchCollection = (filter) => {
+  const searchCollection = () => {
     setIsLoading(true);
 
     requestCollection(filter).then(data =>
@@ -30,28 +31,8 @@ const Content = () => {
     setIsLoading(false);
   }
 
-  const useDebouncer = (func, delay = 0) => {
-    const ref = useRef({});
-    ref.current.func = func;
-
-    const debouncer = useCallback((...args) => {
-      // Clear old timeout if one exists
-      if (ref.current.timeout) {
-        clearTimeout(ref.current.timeout);
-      }
-
-      ref.current.timeout = setTimeout(() => {
-        ref.current.func(...args);
-        ref.current.timeout = undefined;
-      }, delay);
-    },
-      [delay]);
-
-    return debouncer;
-  }
-
   const debounceFunc = useDebouncer(() => {
-    setCollection(searchCollection(filter));
+    setCollection(searchCollection);
   }, 650);
 
   useDidMountEffect(() => {

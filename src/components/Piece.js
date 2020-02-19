@@ -13,7 +13,7 @@ export const Piece = (props) => {
   return (
     <a
       className='piece'
-      href={piece.primaryImage}
+      href={piece.objectURL}
       rel="noopener noreferrer"
       target="_blank"
     >

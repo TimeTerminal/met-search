@@ -24,15 +24,16 @@ const useDebouncer = (func, delay = 0) => {
 
       ref.current.id = id;
 
-      const isLatest = () => id === ref.current.id;
+      const checkLatest = () => id === ref.current.id;
 
       try {
         const response = await ref.current.func(...args);
-        if (isLatest()) {
+
+        if (checkLatest()) {
           ref.current.resolve(response);
         }
       } catch (err) {
-        if (isLatest()) {
+        if (checkLatest()) {
           ref.current.reject(err);
         }
       }
@@ -40,7 +41,7 @@ const useDebouncer = (func, delay = 0) => {
 
     return ref.current.promise;
   },
-    [delay]
+    [delay, ref.current.resolve]
   );
 
   return debouncer;

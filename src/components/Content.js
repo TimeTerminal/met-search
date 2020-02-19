@@ -1,12 +1,12 @@
 import React, {
   useCallback,
   useEffect,
+  useRef,
   useState
 } from "react";
 import '../index.scss';
 import { getRandomFilter, requestCollection } from '../helpers';
 import { Piece } from "./Piece";
-import { debounce } from 'lodash';
 import useDidMountEffect from '../hooks/useDidMount';
 
 const Content = () => {
@@ -31,10 +31,23 @@ const Content = () => {
   }
 
   const useDebouncer = (func, delay = 0) => {
-    // useDebouncer(searchCollection, 650);
-    // filter
-    const newFunc = () => { };
-    return newFunc;
+    const ref = useRef({});
+    ref.current.func = func;
+
+    const debouncer = useCallback((...args) => {
+      // Clear old timeout if one exists
+      if (ref.current.timeout) {
+        clearTimeout(ref.current.timeout);
+      }
+
+      ref.current.timeout = setTimeout(() => {
+        ref.current.func(...args);
+        ref.current.timeout = undefined;
+      }, delay);
+    },
+      [delay]);
+
+    return debouncer;
   }
 
   const debounceFunc = useDebouncer(() => {

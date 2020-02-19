@@ -1,0 +1,154 @@
+$backgroundColor: #f3f3f3;
+$headerColor: #ffffff;
+$themePrimary: #000000;
+$themeSecondary: #373737;
+$themeTertiary: #98999b;
+$themeQuaternary: #111111;
+$textPrimary: #252525;
+$textSecondary: #ffffff;
+$textTertiary: #f0db4f;
+$textQuarternary: #d91404;
+
+body {
+  background: $backgroundColor;
+  color: $textPrimary;
+  font-family: "Lucida Grande", "Calibri", Helvetica, Arial, sans-serif;
+  margin: 0;
+}
+
+.top-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.header-container {
+  flex-wrap: wrap;
+  align-items: center;
+  height: 236px;
+  background: linear-gradient(to top, #373737, #212121);
+}
+
+.header {
+  width: 640px;
+  margin: 0 0 10px 5px;
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 63px;
+  letter-spacing: -0.024em;
+  color: $headerColor;
+  user-select: none;
+}
+
+.form-container {
+  width: 640px;
+  margin: 20px 0;
+}
+
+.form {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.search,
+.clear-button {
+  border-radius: 7px;
+  border: 1px solid $themePrimary;
+  color: $textPrimary;
+  font-size: 19px;
+}
+
+.search {
+  width: 90%;
+  height: 40px;
+  padding: 0 10px;
+
+  background-color: $themeTertiary;
+  line-height: 1.4;
+  letter-spacing: 0.012em;
+}
+
+.clear-button {
+  width: 40px;
+  height: 40px;
+  margin-left: 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $themeSecondary;
+    color: $themeTertiary;
+  }
+}
+
+.images-container {
+  flex-wrap: wrap;
+  margin: 0 10px 10px;
+}
+
+.piece {
+  display: inline-block;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 300px;
+
+  &:hover .piece-info {
+    opacity: 90%;
+    visibility: visible;
+    transition: 0.3s opacity cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+
+  &:hover .piece-image {
+    filter: blur(8px);
+    transform: scale(99%);
+    transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+}
+
+.piece-info {
+  position: absolute;
+  padding: 10px;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 10;
+  width: 280px;
+  height: 280px;
+  overflow-y: auto;
+
+  background: $themeQuaternary;
+  cursor: pointer;
+
+  .text {
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  .piece-title {
+    color: $textTertiary;
+  }
+
+  .piece-dimensions,
+  .piece-date,
+  .piece-artist {
+    color: $textSecondary;
+    margin: 10px 0;
+  }
+
+  .piece-dimensions {
+    font-size: 16px;
+  }
+}
+
+.piece-image {
+  visibility: visible;
+  width: 300px;
+  height: 300px;
+}

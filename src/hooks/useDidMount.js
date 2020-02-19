@@ -9,7 +9,7 @@ const useDidMountEffect = (func, deps) => {
     } else {
       didMount.current = true;
     }
-  }, [deps]);
+  }, deps);
 }
 
 export default useDidMountEffect;

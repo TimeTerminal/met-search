@@ -1,9 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useRef,
-  useState
-} from "react";
+import React, { useEffect, useState } from "react";
 import '../index.scss';
 import { getRandomFilter, requestCollection } from '../helpers';
 import { Piece } from "./Piece";
@@ -23,23 +18,26 @@ const Content = () => {
 
   const searchCollection = () => {
     setIsLoading(true);
+    setCollection([]);
 
-    requestCollection(filter).then(data =>
-      setCollection(data)
-    )
-
-    setIsLoading(false);
+    return new Promise(resolve => {
+      resolve(requestCollection(filter));
+    })
   }
 
-  const debounceFunc = useDebouncer(() => {
-    setCollection(searchCollection);
-  }, 650);
+  const searchWithDebouncer = useDebouncer(searchCollection, 650);
 
-  useDidMountEffect(() => {
-    debounceFunc(filter);
-  }, filter);
+  useDidMountEffect(async () => {
+    if (filter === '') {
+      setCollection([]);
+    } else {
+      const response = await searchWithDebouncer(filter);
+      setCollection(response);
+      setIsLoading(false);
+    }
+  }, [searchWithDebouncer, filter]
+  );
 
-  // console.log('filter :', filter);
   return (
     <div className="top-container">
       <section className='container header-container'>

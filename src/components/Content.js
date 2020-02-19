@@ -19,7 +19,6 @@ const Content = () => {
 
   const searchCollection = () => {
     setIsLoading(true);
-    setCollection([]);
 
     return new Promise(resolve => {
       resolve(requestCollection(filter));
@@ -31,18 +30,16 @@ const Content = () => {
     searchInput.current.value = '';
   }
 
-  const searchWithDebouncer = useDebouncer(searchCollection, 650);
+  const searchWithDebouncer = useDebouncer(
+    searchCollection, 700
+  );
 
-  useDidMountEffect(async () => {
-    if (filter === '') {
-      setCollection([]);
-    } else {
-      const response = await searchWithDebouncer(filter);
+  useDidMountEffect(() => {
+    searchWithDebouncer(filter).then((response => {
       setCollection(response);
       setIsLoading(false);
-    }
+    }));
   }, [searchWithDebouncer, filter]);
-
 
   return (
     <div className="top-container">

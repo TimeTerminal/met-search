@@ -21,7 +21,6 @@ const useDebouncer = (func, delay = 0) => {
 
       // Increment id when the async request goes out
       const id = ref.current.id + 1;
-
       ref.current.id = id;
 
       const checkLatest = () => id === ref.current.id;
@@ -41,7 +40,7 @@ const useDebouncer = (func, delay = 0) => {
 
     return ref.current.promise;
   },
-    [delay, ref.current.resolve]
+    [ref.current.promise]
   );
 
   return debouncer;

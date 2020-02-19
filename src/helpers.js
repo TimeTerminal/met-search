@@ -14,6 +14,9 @@ export function getRandomFilter() {
 }
 
 export async function requestCollection(filter) {
+  if (filter === '') {
+    return
+  }
   const searchURL = BASE_URL + SEARCH_ENDPOINT.replace(/{filter}/, filter);
 
   try {

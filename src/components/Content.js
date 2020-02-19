@@ -49,8 +49,8 @@ const Content = () => {
           <input
             name='search'
             type='search'
-            className='search'
-            placeholder={filter}
+            className={`search ${filter !== '' && 'add-searchbar'}`}
+            placeholder={filter !== '' ? filter : 'Search...'}
             onChange={(e) => setFilter(e.target.value)}
           />
           {filter !== '' &&

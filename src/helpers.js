@@ -22,9 +22,11 @@ export async function requestCollection(filter) {
     })
       .then((response) => response.json());
 
-    return await requestObjectsData(searchResponse);
+    if (searchResponse.objectIDs !== null) {
+      return requestObjectsData(searchResponse);
+    }
   } catch (err) {
-    throw new Error("Couldn't request collection ...", err);
+    console.error("Couldn't request collection ...", err);
   }
 }
 
@@ -43,6 +45,6 @@ async function requestObjectsData(searchResponse) {
     });
     return Promise.all(objectData);
   } catch (err) {
-    throw new Error("Couldn't request object data ...", err);
+    console.error("Couldn't request object data ...", err);
   }
 }

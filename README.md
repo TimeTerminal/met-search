@@ -17,28 +17,30 @@ Built using React with Hooks
 
 On pageload it requests a search query with a random keyword (from a predetermined list). This was done to populate the page with some interesting content a user may want to see. It does slow the initial page load down a bit, but if the purpose of the page is to showcase The Met's collection, this would be a good way to do so.
 
-I opted to not show details on click and instead on hover of each of the cards to maintain a design consistency.
+I opted to show the image's details when hovering on an image card instead of onclick to maintain a design consistency.
 
-I tried to go for a more contemporary look for displaying and interacting with the search and images. And followed The Met's API page's header design to make it seem like a page from the same parent website.
+The chosen theme, colours, and animations try to follow a more contemporary look for displaying and interacting with the search and images. Inspiration drawn from and The Met's main website and Apple's various sites.
+
+To make the page seem like it came from the same parent website, the header design attempts to match the Met's API Github page's header design.
 
 ### Structure
 
-- `constants.js` contains the endpoints as well as the array with some pre-selected queries
-- `helpers.js` contains the data fetching functions as well as a utility function
-- `index.scss` contains the SASS based styling
+- `constants.js` - Endpoints as global variables, as well as an array of pre-selected queries
+- `helpers.js` - The data fetching functions as well as a utility function
+- `index.scss` - SASS based styling with the theme variables on top
 
 Components
 
-- `Content.js` holds the main search component with which calls some custom hooks
-- `Piece.js` holds a higher order component for each of the image cards
+- `Content.js` - The main search component with which calls some custom hooks
+- `Piece.js` - A higher order component for each of the image cards
 
 Hooks
 
-- `useDebouncer.js` holds the custom hook which debounces the passed in search function. Because of its asynchronous nature, I opted not to use lodash or underscore's debounce methods. This function uses a setTimeout and associates a unique id to it whenever the async request goes out. If the filter (i.e query string) changes, the function increments that id again. If it is the latest (greatest) id, it will resolve the promise with the results of that request and the data is passed back to the callback function.
+- `useDebouncer.js` - A custom hook which debounces the passed in search function. Because of its asynchronous nature, I opted not to use lodash or underscore's debounce methods. This function uses a setTimeout and associates a unique id to it whenever the async request goes out. If the filter (i.e query string) changes, the function increments that id again. If it is the latest (greatest) id, it will resolve the promise with the results of that request and the data is passed back to the callback function.
 
 ## Expanding the project
 
-- Make it more mobile-friendly. Although the design was built to be responsive on conception, the hover effect wouldn't work unless one had a mouse.
+- Make it more mobile-friendly. Although the design was built to be responsive on conception, the hover effect wouldn't work unless one had a mouse
 - Show multiple pages of results with pagination (or never ending scrolling)
 - Lazy load images to better the performance of the page
 - Make the search more customizable and robust through the following:
